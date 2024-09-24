@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 np.random.seed(123)
 
 # Define the sample size for A/B test
-sample_size = 1000
+sample_size = 1500
 
 # Simulating conversion rates for two versions (A and B) of the app feature
 # Version A has a conversion rate of 30%
@@ -101,7 +101,7 @@ error_B = (ci_B[1] - ci_B[0]) / 2  # Half of the CI range
 plt.figure(figsize=(8, 8))
 fs=18
 plt.rcParams['font.family'] = 'Calibri'
-plt.bar(['A', 'B'], 
+plt.bar(['Version A', 'Version B'], 
         [conversion_rate_A_observed, conversion_rate_B_observed], 
         yerr=[error_A, error_B],  # Add error bars
         color=['#76c7c0', '#ff6f61'],
@@ -109,10 +109,10 @@ plt.bar(['A', 'B'],
 plt.title('Conversion Rates for A/B Test', fontweight='bold', fontsize=fs)
 plt.ylabel('Conversion Rate', fontweight='bold', fontsize=fs)
 plt.ylim(0, 1)
-plt.xticks(fontsize=fs-2)
-plt.yticks(fontsize=fs-2)
+plt.xticks(fontsize=fs-1)
+plt.yticks(fontsize=fs-1)
 plt.grid(axis='y', alpha=0.25)
-t_test_text = f"T = {t_stat:.4f}\nP = {p_value:.4f}"
+t_test_text = f"t = {t_stat:.4f}\np = {p_value:.4f}"
 # Display the t-test result in the top-right corner
 plt.text(0.5, 0.5, t_test_text, fontsize=fs-1, verticalalignment='center', horizontalalignment='center', transform=plt.gca().transAxes)
 # Remove axes borders
