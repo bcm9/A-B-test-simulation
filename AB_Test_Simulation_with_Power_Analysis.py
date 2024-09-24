@@ -53,14 +53,14 @@ powers = [power_analysis.solve_power(effect_size, nobs1=n, alpha=alpha) for n in
 
 # Plot power vs sample size
 plt.figure(figsize=(8, 6))
-plt.plot(sample_sizes, powers, label='Power Curve', color='lightblue', lw=3)
+plt.plot(sample_sizes, powers, label='Power Curve', color='lightblue', lw=4)
 plt.axhline(y=0.8, color='red', linestyle='--', label='80% Power')  # Add horizontal line for 80% power
 fs=22
 plt.title('T-Test Power vs. Sample Size', fontsize=fs, fontweight='bold')
 plt.xlabel('Sample Size (n)', fontsize=fs-2, fontweight='bold')
 plt.ylabel('Power', fontsize=fs-2, fontweight='bold')
 plt.ylim(0, 1)
-plt.grid(True)
+plt.grid(True, alpha=0.3)
 plt.xticks(fontsize=fs-2)
 plt.yticks(fontsize=fs-2)
 # Remove axes borders
@@ -134,7 +134,7 @@ error_B = (ci_B[1] - ci_B[0]) / 2  # Half of the CI range
 ##################################################################################################################################################################################################################
 # Plots
 ##################################################################################################################################################################################################################
-plt.figure(figsize=(8, 8))
+plt.figure(figsize=(8, 7))
 plt.rcParams['font.family'] = 'Calibri'
 plt.bar(['Version A', 'Version B'], 
         [conversion_rate_A_observed, conversion_rate_B_observed], 
