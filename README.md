@@ -6,3 +6,7 @@ T-tests to determine if differences are significant.
 Confidence Intervals (CIs) to show uncertainty in conversion rates.
 Power Analysis to calculate the required sample size for robust results.
 Clean visualisations with error bars (CIs) and results displayed on the plot.
+
+<div style="display: flex; justify-content: space-between;">
+  <img src="./conversion_rate.png" alt="conversion rate" width="700"/>
+</div>
