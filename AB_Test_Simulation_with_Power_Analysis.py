@@ -43,6 +43,42 @@ required_sample_size = power_analysis.solve_power(effect_size, power=power, alph
 print(f"Required sample size for sufficient power: {required_sample_size:.0f}")
 
 ##################################################################################################################################################################################################################
+# Plot power vs. sample size
+##################################################################################################################################################################################################################
+# Array of different sample sizes
+sample_sizes = np.arange(50, 2000, 50)
+
+# Calculate power for each sample size
+powers = [power_analysis.solve_power(effect_size, nobs1=n, alpha=alpha) for n in sample_sizes]
+
+# Plot power vs sample size
+plt.figure(figsize=(8, 6))
+plt.plot(sample_sizes, powers, label='Power Curve', color='lightblue', lw=3)
+plt.axhline(y=0.8, color='red', linestyle='--', label='80% Power')  # Add horizontal line for 80% power
+fs=22
+plt.title('T-Test Power vs. Sample Size', fontsize=fs, fontweight='bold')
+plt.xlabel('Sample Size (n)', fontsize=fs-2, fontweight='bold')
+plt.ylabel('Power', fontsize=fs-2, fontweight='bold')
+plt.ylim(0, 1)
+plt.grid(True)
+plt.xticks(fontsize=fs-2)
+plt.yticks(fontsize=fs-2)
+# Remove axes borders
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+plt.gca().spines['bottom'].set_visible(False)
+# Remove x and y tick lines
+plt.tick_params(axis='both', which='both', length=0)
+plt.legend(loc='lower right',fontsize=fs-4)
+
+# Save plot
+folder = 'C:/Users/bcm9/OneDrive/Documents/code/AB_test_simulation/'
+plt.savefig(folder + 'power_vs_sample_size.png', dpi=300, bbox_inches='tight')
+
+plt.show()
+
+##################################################################################################################################################################################################################
 # Generate synthetic data
 ##################################################################################################################################################################################################################
 # For version A, we generate random 0s (no conversion) and 1s (conversion) based on the conversion rate
@@ -99,7 +135,6 @@ error_B = (ci_B[1] - ci_B[0]) / 2  # Half of the CI range
 # Plots
 ##################################################################################################################################################################################################################
 plt.figure(figsize=(8, 8))
-fs=22
 plt.rcParams['font.family'] = 'Calibri'
 plt.bar(['Version A', 'Version B'], 
         [conversion_rate_A_observed, conversion_rate_B_observed], 
