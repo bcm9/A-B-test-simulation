@@ -99,7 +99,7 @@ error_B = (ci_B[1] - ci_B[0]) / 2  # Half of the CI range
 # Plots
 ##################################################################################################################################################################################################################
 plt.figure(figsize=(8, 8))
-fs=18
+fs=22
 plt.rcParams['font.family'] = 'Calibri'
 plt.bar(['Version A', 'Version B'], 
         [conversion_rate_A_observed, conversion_rate_B_observed], 
