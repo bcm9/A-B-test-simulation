@@ -4,7 +4,7 @@ A/B test simulation
 Simulates an A/B test to compare conversion rates of versions of an app feature. 
 Generates synthetic data for each version, performs a t-test to check if the difference in conversion rates is significant, and visualises the results. 
 Multivariate logistic regression used to examine the effect of age and device type on conversion.
-A power analysis is included to determine the required sample size for statistical power.
+Power analysis included to determine the required sample size.
 
 """
 
@@ -51,12 +51,12 @@ powers = [power_analysis.solve_power(effect_size, nobs1=n, alpha=alpha) for n in
 
 # Plot power vs sample size
 plt.figure(figsize=(8, 6))
-plt.plot(sample_sizes, powers, label='Power Curve', color='lightblue', lw=4)
-plt.axhline(y=0.8, color='red', linestyle='--', label='80% Power')  # Add horizontal line for 80% power
+plt.plot(sample_sizes, powers, label='Power curve', color='lightblue', lw=4)
+plt.axhline(y=0.8, color='red', linestyle='--', label='80% power')  # Add horizontal line for 80% power
 fs=22
 plt.title('T-Test Power vs. Sample Size', fontsize=fs, fontweight='bold')
 plt.xlabel('Sample Size (n)', fontsize=fs-2, fontweight='bold')
-plt.ylabel('Power', fontsize=fs-2, fontweight='bold')
+plt.ylabel('Power (1-\u03B2)', fontsize=fs-2, fontweight='bold')
 plt.ylim(0, 1)
 plt.grid(True, alpha=0.3)
 plt.xticks(fontsize=fs-2)
@@ -68,7 +68,7 @@ plt.gca().spines['left'].set_visible(False)
 plt.gca().spines['bottom'].set_visible(False)
 # Remove x and y tick lines
 plt.tick_params(axis='both', which='both', length=0)
-plt.legend(loc='lower right',fontsize=fs-4)
+plt.legend(loc='lower right', fontsize=fs-4, frameon=False)
 
 # Save plot
 folder = 'C:/Users/bc22/OneDrive/Documents/code/AB_test_simulation/'
