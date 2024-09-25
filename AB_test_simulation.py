@@ -33,7 +33,7 @@ effect_size = abs(conversion_rate_A - conversion_rate_B) / np.sqrt((conversion_r
 alpha = 0.05  # significance level
 power = 0.8   # desired power (80%)
 
-# Calculate the required sample size
+# Calculate required sample size
 from statsmodels.stats.power import TTestIndPower
 power_analysis = TTestIndPower()
 required_sample_size = power_analysis.solve_power(effect_size, power=power, alpha=alpha)
@@ -73,7 +73,6 @@ plt.legend(loc='lower right',fontsize=fs-4)
 # Save plot
 folder = 'C:/Users/bc22/OneDrive/Documents/code/AB_test_simulation/'
 plt.savefig(folder + 'power_vs_sample_size.png', dpi=300, bbox_inches='tight')
-
 plt.show()
 
 ##################################################################################################################################################################################################################
@@ -98,7 +97,7 @@ print(f"Observed Conversion Rate - Version A: {conversion_rate_A_observed:.2%}")
 print(f"Observed Conversion Rate - Version B: {conversion_rate_B_observed:.2%}")
 
 ##################################################################################################################################################################################################################
-# Perform a t-test to check if the difference in conversion rates is statistically significant
+# T-test to check if the difference in conversion rates is statistically significant
 ##################################################################################################################################################################################################################
 # t-test as comparing the mean conversion rates between two groups. t-test is appropriate for continuous or binary data where we want to see if the average outcome differs. 
 # chi-square test would be used if comparing categorical counts
@@ -130,7 +129,7 @@ error_A = (ci_A[1] - ci_A[0]) / 2  # Half of the CI range
 error_B = (ci_B[1] - ci_B[0]) / 2  # Half of the CI range
 
 ##################################################################################################################################################################################################################
-# Plots
+# Plot conversion rate
 ##################################################################################################################################################################################################################
 plt.figure(figsize=(8, 7))
 plt.rcParams['font.family'] = 'Calibri'
