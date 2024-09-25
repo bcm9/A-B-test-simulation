@@ -9,7 +9,7 @@ A power analysis is included to determine the required sample size for statistic
 """
 
 ##################################################################################################################################################################################################################
-# Importing libraries
+# Import libraries
 ##################################################################################################################################################################################################################
 import numpy as np
 import pandas as pd
@@ -164,11 +164,11 @@ plt.show()
 ##################################################################################################################################################################################################################
 # Multivariate data simulation: effect of age and device type
 ##################################################################################################################################################################################################################
-# Additional variables (age group and device type)
+# Factors (age group and device type)
 age_group = np.random.choice([0, 1], size=sample_size, p=[0.5, 0.5])  # 0 = younger, 1 = older
 device_type = np.random.choice([0, 1], size=sample_size, p=[0.7, 0.3])  # 0 = mobile, 1 = desktop
 
-# Combine data into a DataFrame for logistic regression
+# Combine into a df for regression
 df = pd.DataFrame({
     'conversion': np.concatenate([data_A, data_B]),
     'version': np.concatenate([np.zeros(sample_size), np.ones(sample_size)]),  # 0 = Version A, 1 = Version B
@@ -183,21 +183,21 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 from statsmodels.stats.power import TTestIndPower
-# Split the data into training and test sets
+# Split data into training and test sets
 X = df[['version', 'age_group', 'device_type']]
 y = df['conversion']
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-# Logistic regression model
+# Logistic regression
 log_reg = LogisticRegression()
 log_reg.fit(X_train, y_train)
 
-# Make predictions and assess accuracy
+# Make predictions, assess accuracy
 y_pred = log_reg.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Logistic Regression Accuracy: {accuracy:.2%}")
 
-# Display the coefficients (effect of each variable on conversion)
+# Display coefficients (effect of each variable on conversion)
 coefficients = pd.DataFrame({
     'Variable': ['Version (A vs B)', 'Age Group (Young vs Old)', 'Device Type (Mobile vs Desktop)'],
     'Coefficient': log_reg.coef_[0]
