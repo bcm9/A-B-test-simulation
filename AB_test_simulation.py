@@ -1,9 +1,9 @@
 """
 A/B test simulation
 
-Simulates an A/B test to compare the conversion rates of two versions of an app feature. It generates synthetic data for each version, 
-performs a t-test to check if the difference in conversion rates is statistically significant, 
-and visualises the results. Multivariate logistic regression is used to examine the effect of age and device type on conversion.
+Simulates an A/B test to compare conversion rates of versions of an app feature. 
+Generates synthetic data for each version, performs a t-test to check if the difference in conversion rates is significant, and visualises the results. 
+Multivariate logistic regression used to examine the effect of age and device type on conversion.
 A power analysis is included to determine the required sample size for statistical power.
 
 """
@@ -16,15 +16,13 @@ import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
 
-# Set seed for reproducibility
+# Set seed
 np.random.seed(123)
 
 # Define the sample size for A/B test
 sample_size = 1500
 
-# Simulating conversion rates for two versions (A and B) of the app feature
-# Version A has a conversion rate of 30%
-# Version B has a higher conversion rate of 35% (hypothetical improvement)
+# Simulating conversion rates for two versions (A and B)
 conversion_rate_A = 0.30
 conversion_rate_B = 0.35
 
