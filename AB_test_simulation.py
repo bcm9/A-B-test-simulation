@@ -202,3 +202,22 @@ coefficients = pd.DataFrame({
 
 print("\nCoefficients from logistic regression:")
 print(coefficients)
+
+##################################################################################################################################################################################################################
+# Plot coefficients
+##################################################################################################################################################################################################################
+plt.figure(figsize=(8, 7))
+plt.rcParams['font.family'] = 'Calibri'
+plt.bar(coefficients['Variable'], coefficients['Coefficient'], color=['#76c7c0', '#ff6f61', '#76c7c0'])
+plt.title('Regression Coefficients', fontweight='bold', fontsize=fs)
+plt.ylabel('Coefficient Value', fontweight='bold', fontsize=fs)
+plt.xticks(fontsize=fs-3, rotation=45)
+plt.yticks(fontsize=fs-1)
+plt.grid(axis='y', alpha=0.25)
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+plt.gca().spines['bottom'].set_visible(False)
+plt.tick_params(axis='both', which='both', length=0)
+plt.savefig(folder+'regression_coeffs.png', dpi=300, bbox_inches='tight')
+plt.show()
