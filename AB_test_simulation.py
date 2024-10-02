@@ -208,7 +208,7 @@ print(coefficients)
 ##################################################################################################################################################################################################################
 plt.figure(figsize=(8, 7))
 plt.rcParams['font.family'] = 'Calibri'
-plt.bar(coefficients['Variable'], coefficients['Coefficient'], color=['#76c7c0', '#ff6f61', '#76c7c0'])
+plt.bar(coefficients['Variable'], coefficients['Coefficient'], color=['#50C878'])
 plt.title('Regression Coefficients', fontweight='bold', fontsize=fs)
 plt.ylabel('Coefficient Value', fontweight='bold', fontsize=fs)
 plt.xticks(fontsize=fs-3, rotation=45)
