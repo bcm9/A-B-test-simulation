@@ -7,4 +7,5 @@ Includes a power analysis to calculate the required sample size for robust resul
 <div style="display: flex; justify-content: space-between;">
   <img src="./power_vs_sample_size.png" alt="power_vs_n" width="400"/>
   <img src="./conversion_rate.png" alt="conversion rate" width="400"/>
+  <img src="./regression_coeffs.png" alt="conversion rate" width="400"/>
 </div>
