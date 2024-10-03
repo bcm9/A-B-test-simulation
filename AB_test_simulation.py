@@ -1,8 +1,9 @@
 """
-A/B test simulation
+A/B test simulation with Bayesian analysis
 
 Simulates an A/B test to compare conversion rates of versions of an app feature. 
-Generates synthetic data for each version, performs a t-test to check if the difference in conversion rates is significant, and visualises the results. 
+Generates synthetic data for each version, performs both a t-test and Bayesian analysis to check if the difference in conversion rates is significant, and visualises the results. 
+Bayesian inference used to estimate the posterior distributions of conversion rates and calculate the probability that one version performs better than the other. 
 Multivariate logistic regression used to examine the effect of age and device type on conversion.
 Power analysis included to determine the required sample size.
 
@@ -15,6 +16,7 @@ import numpy as np
 import pandas as pd
 from scipy import stats
 import matplotlib.pyplot as plt
+from scipy.stats import beta
 
 # Set seed
 np.random.seed(123)
@@ -78,9 +80,9 @@ plt.show()
 ##################################################################################################################################################################################################################
 # Generate synthetic data
 ##################################################################################################################################################################################################################
-# For version A, we generate random 0s (no conversion) and 1s (conversion) based on the conversion rate
+# Generate random 0s (no conversion) and 1s (conversion) based on the conversion rate
 data_A = np.random.binomial(1, conversion_rate_A, sample_size)
-# For version B, we generate similar data with a slightly higher conversion rate
+# Generate similar data with a slightly higher conversion rate
 data_B = np.random.binomial(1, conversion_rate_B, sample_size)
 
 # Creating a DataFrame for easier data handling
@@ -98,6 +100,7 @@ print(f"Observed Conversion Rate - Version B: {conversion_rate_B_observed:.2%}")
 
 ##################################################################################################################################################################################################################
 # T-test to check if the difference in conversion rates is statistically significant
+# T-test gives a p-value to determine if the difference between two versions is statistically significant
 ##################################################################################################################################################################################################################
 # t-test as comparing the mean conversion rates between two groups. t-test is appropriate for continuous or binary data where we want to see if the average outcome differs. 
 # chi-square test would be used if comparing categorical counts
@@ -106,6 +109,58 @@ t_stat, p_value = stats.ttest_ind(df['Version_A'], df['Version_B'])
 # Output the results of the A/B test
 print(f"T-statistic: {t_stat:.4f}")
 print(f"P-value: {p_value:.4f}")
+
+##################################################################################################################################################################################################################
+# Bayesian analysis to estimate conversion rates and calculate the probability that B is better than A
+# Bayesian analysis gives probability of one being better than the other, giving more insight into likelihood of which performs better while accounting for uncertainty
+##################################################################################################################################################################################################################
+# Observed data: count conversions and trials for each version
+conversions_A = data_A.sum()  # N conversions in A
+conversions_B = data_B.sum()  # N conversions in B
+trials_A = len(data_A)        # N users in A
+trials_B = len(data_B)        # N users in B
+
+# Beta prior (non-informative prior: flat, no assumptions)
+alpha_prior = 1
+beta_prior = 1
+
+# Beta posterior update based on data
+# Posterior parameters for Version A
+alpha_post_A = alpha_prior + conversions_A  # Update alpha with the number of successes (conversions)
+beta_post_A = beta_prior + (trials_A - conversions_A)  # Update beta with the number of failures (non-conversions)
+
+# Posterior parameters for Version B
+alpha_post_B = alpha_prior + conversions_B  # Update alpha with the number of successes
+beta_post_B = beta_prior + (trials_B - conversions_B)  # Update beta with the number of failures
+
+# Generate random samples from posterior distribution, see how likely each conversion rate is
+posterior_A = beta.rvs(alpha_post_A, beta_post_A, size=10000)
+posterior_B = beta.rvs(alpha_post_B, beta_post_B, size=10000)
+
+# Plot posterior distributions
+plt.figure(figsize=(10, 6))
+plt.rcParams['font.family'] = 'Calibri'
+plt.hist(posterior_A, bins=50, alpha=0.5, label='Posterior of A', density=True,color=['#76c7c0'])
+plt.hist(posterior_B, bins=50, alpha=0.5, label='Posterior of B', density=True,color=['#ff6f61'])
+plt.title('Posterior Distributions of Conversion Rates', fontweight='bold', fontsize=fs)
+plt.xlabel('Conversion Rate', fontweight='bold', fontsize=fs)
+plt.ylabel('Density', fontweight='bold', fontsize=fs)
+plt.xticks(fontsize=fs-1)
+plt.yticks(fontsize=fs-1)
+plt.legend(loc='upper right', fontsize=fs-4, frameon=False)
+plt.grid(axis='y', alpha=0.25)
+plt.gca().spines['top'].set_visible(False)
+plt.gca().spines['right'].set_visible(False)
+plt.gca().spines['left'].set_visible(False)
+plt.gca().spines['bottom'].set_visible(False)
+plt.tick_params(axis='both', which='both', length=0)
+folder = 'C:/Users/bc22/OneDrive/Documents/code/AB_test_simulation/'
+plt.savefig(folder+'post_dist.png', dpi=300, bbox_inches='tight')
+plt.show()
+
+# Print comparison
+prob_B_better_than_A = np.mean(posterior_B > posterior_A)
+print(f"Probability that Version B is better than A: {prob_B_better_than_A:.2%}")
 
 ##################################################################################################################################################################################################################
 # Calculate CIs
