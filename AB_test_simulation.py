@@ -100,7 +100,7 @@ print(f"Observed Conversion Rate - Version B: {conversion_rate_B_observed:.2%}")
 
 ##################################################################################################################################################################################################################
 # T-test to check if the difference in conversion rates is statistically significant
-# T-test gives a p-value to determine if the difference between two versions is statistically significant
+# Outputs p-value to determine if the difference between two versions is statistically significant
 ##################################################################################################################################################################################################################
 # t-test as comparing the mean conversion rates between two groups. t-test is appropriate for continuous or binary data where we want to see if the average outcome differs. 
 # chi-square test would be used if comparing categorical counts
@@ -140,8 +140,8 @@ posterior_B = beta.rvs(alpha_post_B, beta_post_B, size=10000)
 # Plot posterior distributions
 plt.figure(figsize=(10, 6))
 plt.rcParams['font.family'] = 'Calibri'
-plt.hist(posterior_A, bins=50, alpha=0.5, label='Posterior of A', density=True,color=['#76c7c0'])
-plt.hist(posterior_B, bins=50, alpha=0.5, label='Posterior of B', density=True,color=['#ff6f61'])
+plt.hist(posterior_A, bins=50, alpha=0.5, label='A', density=True,color=['#76c7c0'])
+plt.hist(posterior_B, bins=50, alpha=0.5, label='B', density=True,color=['#ff6f61'])
 plt.title('Posterior Distributions of Conversion Rates', fontweight='bold', fontsize=fs)
 plt.xlabel('Conversion Rate', fontweight='bold', fontsize=fs)
 plt.ylabel('Density', fontweight='bold', fontsize=fs)
@@ -249,7 +249,7 @@ y_pred = log_reg.predict(X_test)
 accuracy = accuracy_score(y_test, y_pred)
 print(f"Logistic Regression Accuracy: {accuracy:.2%}")
 
-# Display coefficients (effect of each variable on conversion)
+# Print coefficients
 coefficients = pd.DataFrame({
     'Variable': ['Version (A vs B)', 'Age Group (Young vs Old)', 'Device Type (Mobile vs Desktop)'],
     'Coefficient': log_reg.coef_[0]
