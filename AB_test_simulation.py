@@ -137,11 +137,21 @@ beta_post_B = beta_prior + (trials_B - conversions_B)  # Update beta with the nu
 posterior_A = beta.rvs(alpha_post_A, beta_post_A, size=10000)
 posterior_B = beta.rvs(alpha_post_B, beta_post_B, size=10000)
 
+# Print comparison
+prob_B_better_than_A = np.mean(posterior_B > posterior_A)
+print(f"Probability that Version B is better than A: {prob_B_better_than_A:.2%}")
+
 # Plot posterior distributions
 plt.figure(figsize=(10, 6))
 plt.rcParams['font.family'] = 'Calibri'
 plt.hist(posterior_A, bins=50, alpha=0.5, label='A', density=True,color=['#76c7c0'])
 plt.hist(posterior_B, bins=50, alpha=0.5, label='B', density=True,color=['#ff6f61'])
+# Add probability text
+plt.text(0.02, 0.95, f'P(B > A) = {prob_B_better_than_A:.1%}', 
+         transform=plt.gca().transAxes,  # This positions text relative to plot area
+         fontsize=fs-5,
+         fontweight='normal',
+         bbox=dict(facecolor='white', alpha=0.8, edgecolor='none', pad=3.0))
 plt.title('Posterior Distributions of Conversion Rates', fontweight='bold', fontsize=fs)
 plt.xlabel('Conversion Rate', fontweight='bold', fontsize=fs)
 plt.ylabel('Density', fontweight='bold', fontsize=fs)
@@ -157,10 +167,6 @@ plt.tick_params(axis='both', which='both', length=0)
 folder = 'C:/Users/bc22/OneDrive/Documents/code/AB_test_simulation/'
 plt.savefig(folder+'post_dist.png', dpi=300, bbox_inches='tight')
 plt.show()
-
-# Print comparison
-prob_B_better_than_A = np.mean(posterior_B > posterior_A)
-print(f"Probability that Version B is better than A: {prob_B_better_than_A:.2%}")
 
 ##################################################################################################################################################################################################################
 # Calculate CIs
